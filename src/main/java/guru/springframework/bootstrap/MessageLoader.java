@@ -1,7 +1,9 @@
 package guru.springframework.bootstrap;
 
 import guru.springframework.domain.Message;
+import guru.springframework.domain.Todo;
 import guru.springframework.repositories.MessageRepository;
+import guru.springframework.repositories.TodoRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -14,6 +16,7 @@ import java.util.Date;
 public class MessageLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private MessageRepository messageRepository;
+    private TodoRepository todoRepository;
 
     private Logger log = Logger.getLogger(MessageLoader.class);
 
@@ -22,23 +25,27 @@ public class MessageLoader implements ApplicationListener<ContextRefreshedEvent>
         this.messageRepository = messageRepository;
     }
 
+    @Autowired
+    public void setTodoRepository(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
+    }
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        Message test1 = new Message();
-        test1.setUserName("张三");
-        test1.setContent("测试内容1");
-        test1.setDate(new Date());
-        messageRepository.save(test1);
+        Message message = new Message();
+        message.setUserName("张三");
+        message.setContent("测试内容1");
+        message.setDate(new Date());
+        messageRepository.save(message);
 
-        log.info("Saved test1 - id: " + test1.getId());
+        log.info("Saved test1 - id: " + message.getId());
 
-        Message test2 = new Message();
-        test2.setUserName("李四");
-        test2.setContent("测试内容2");
-        test2.setDate(new Date());
-        messageRepository.save(test2);
+        Todo todo = new Todo();
+        todo.setContent("study Spring Boot");
+        todo.setDate(new Date());
+        todoRepository.save(todo);
 
-        log.info("Saved test2 - id:" + test2.getId());
+        log.info("Saved todo1 - id:" + todo.getId());
     }
 }

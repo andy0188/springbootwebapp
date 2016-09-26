@@ -14,7 +14,6 @@ public class Todo {
 
     private String content; //用户名
     private Date date;//时间
-    private String status;//状态
 
     public Todo() {
     }
@@ -43,11 +42,4 @@ public class Todo {
         this.date = date;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
