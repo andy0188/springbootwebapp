@@ -1,14 +1,14 @@
 package guru.springframework.repositories;
 
 import guru.springframework.configuration.RepositoryConfiguration;
-import guru.springframework.domain.Product;
+import guru.springframework.domain.Message;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -16,53 +16,53 @@ import static org.junit.Assert.*;
 @SpringApplicationConfiguration(classes = {RepositoryConfiguration.class})
 public class ProductRepositoryTest {
 
-    private ProductRepository productRepository;
+    private MessageRepository productRepository;
 
     @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
+    public void setProductRepository(MessageRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Test
     public void testSaveProduct(){
         //setup product
-        Product product = new Product();
-        product.setDescription("Spring Framework Guru Shirt");
-        product.setPrice(new BigDecimal("18.95"));
-        product.setProductId("1234");
+        Message product = new Message();
+        product.setUserName("张三");
+        product.setContent("测试内容1");
+        product.setDate(new Date());
 
         //save product, verify has ID value after save
         assertNull(product.getId()); //null before save
         productRepository.save(product);
         assertNotNull(product.getId()); //not null after save
         //fetch from DB
-        Product fetchedProduct = productRepository.findOne(product.getId());
+        Message fetchedProduct = productRepository.findOne(product.getId());
 
         //should not be null
         assertNotNull(fetchedProduct);
 
         //should equal
         assertEquals(product.getId(), fetchedProduct.getId());
-        assertEquals(product.getDescription(), fetchedProduct.getDescription());
+        assertEquals(product.getContent(), fetchedProduct.getContent());
 
         //update description and save
-        fetchedProduct.setDescription("New Description");
+        fetchedProduct.setContent("New Content");
         productRepository.save(fetchedProduct);
 
         //get from DB, should be updated
-        Product fetchedUpdatedProduct = productRepository.findOne(fetchedProduct.getId());
-        assertEquals(fetchedProduct.getDescription(), fetchedUpdatedProduct.getDescription());
+        Message fetchedUpdatedProduct = productRepository.findOne(fetchedProduct.getId());
+        assertEquals(fetchedProduct.getContent(), fetchedUpdatedProduct.getContent());
 
         //verify count of products in DB
         long productCount = productRepository.count();
         assertEquals(productCount, 1);
 
         //get all products, list should only have one
-        Iterable<Product> products = productRepository.findAll();
+        Iterable<Message> products = productRepository.findAll();
 
         int count = 0;
 
-        for(Product p : products){
+        for(Message p : products){
             count++;
         }
 
