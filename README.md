@@ -1,5 +1,5 @@
 ### 面试题
-包含留言板和todo list两个模块功能。
+包含留言板和todo list两个模块功能。对应show me the code 中的23，24两道题
 
 requires:
     - mysql
