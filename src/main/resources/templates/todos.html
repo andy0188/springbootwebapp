@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>todo list</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/index.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}" />
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div class="page-header">
+        <h1>todo list</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-10">
+            <form class="input-group" action="todo" method="post">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">task :</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="content" />
+                    </div>
+                </div>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </span>
+            </form>
+            <hr/>
+            <div th:if="${not #lists.isEmpty(todos)}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>content</th>
+                        <th>time</th>
+                        <th>operation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="info" th:each="todo : ${todos}">
+                        <td th:text="${todo.content}">Content</td>
+                        <td th:text="${todo.date}">Date</td>
+                        <td><a th:href="${'/todo/delete/' + todo.id}">delete</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${#lists.isEmpty(todos)}">
+                <span class="xxx">please add some taskes!</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
